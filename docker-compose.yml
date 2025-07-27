@@ -1,0 +1,30 @@
+
+version: '3.8'
+services:
+  api:
+    build: .
+    container_name: tech_challenge_api
+    ports:
+      - "8000:8000"
+    environment:
+      PYTHONPATH: /app
+      MONGO_URI: ${MONGO_URI}
+      MONGO_DB_NAME: ${MONGO_DB_NAME}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_MODEL: ${OPENAI_MODEL}
+    env_file:
+      - ./api/.env
+    depends_on:
+      - mongo
+    volumes:
+      - ./api:/app/api
+  mongo:
+    image: mongo:6.0
+    container_name: tech_challenge_mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+volumes:
+  mongo_data:

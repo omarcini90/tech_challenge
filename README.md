@@ -41,7 +41,7 @@ make clean     # Limpia contenedores y volúmenes
 
 Debes configurar las siguientes variables de entorno para el correcto funcionamiento del servicio (puedes usar un archivo `.env`):
 
-- `MONGO_URI`: URI de conexión a MongoDB (ejemplo: `mongodb://localhost:27017`)
+- `MONGO_URI`: URI de conexión a MongoDB (ejemplo: `mongodb://mongo:27017`)
 - `OPENAI_API_KEY`: Clave de API para el servicio de OpenAI (si aplica)
 
 
@@ -49,16 +49,16 @@ Debes configurar las siguientes variables de entorno para el correcto funcionami
 
 Puedes visualizar la documentación de la API generada automáticamente por FastAPI en:
 
-- Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
-- Redoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
+
+Puedes visualizar la documentación de la API generada automáticamente por FastAPI en:
+
+- Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- Redoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
 ## Documentación de los servicios
 
 ### API principal
 
-El servicio expone endpoints para gestionar conversaciones y mensajes de chat. Los principales endpoints son:
-
-- `POST /chat`: Envía un mensaje y recibe una respuesta del asistente.
 - `GET /conversation/{conversation_id}`: Obtiene todos los mensajes de una conversación específica.
 
 
@@ -94,13 +94,18 @@ El servicio expone endpoints para gestionar conversaciones y mensajes de chat. L
 - **MongoDB**: Base de datos para almacenar las conversaciones y mensajes.
 - **OpenAI**: Servicio externo para generar respuestas automáticas (si está configurado).
 
+
 ## Pruebas
 
-Las pruebas están en la carpeta `tests/`. Se ejecutan con `make test` o manualmente con:
+Las pruebas se ejecutan dentro de los contenedores Docker usando el Makefile. No es necesario instalar dependencias localmente ni ejecutar comandos fuera de Docker.
+
+- Para ejecutar los tests, usa:
 
 ```sh
-PYTHONPATH=. pytest
+make test
 ```
+
+Esto construirá la imagen si es necesario y correrá los tests en el entorno Docker, asegurando que todo funcione igual que en producción.
 
 ---
 Para dudas o problemas, consulta el código fuente o abre un issue.

@@ -9,10 +9,10 @@ help:
 	@echo "  make clean     Elimina todos los contenedores y volúmenes"
 
 install:
-	pip install -r api/requirements.txt
+	docker-compose build
 
 test:
-	PYTHONPATH=. pytest
+	docker-compose run --rm api pytest
 
 run:
 	docker-compose up -d
@@ -22,3 +22,5 @@ down:
 
 clean:
 	docker-compose down -v --remove-orphans
+	docker system prune -f
+	docker volume prune -f
