@@ -1,4 +1,4 @@
-# tech_challenge
+# Tech Challenge
 Desafío tecnológico para reclutamiento
 
 ## Requisitos previos
@@ -61,12 +61,13 @@ El servicio expone endpoints para gestionar conversaciones y mensajes de chat. L
 - `POST /chat`: Envía un mensaje y recibe una respuesta del asistente.
 - `GET /conversation/{conversation_id}`: Obtiene todos los mensajes de una conversación específica.
 
+
 #### Ejemplo de request para `/chat`
 
 ```json
 {
   "conversation_id": "abc123",
-  "prompt": "Hola"
+  "message": "Hola"
 }
 ```
 
@@ -75,7 +76,16 @@ El servicio expone endpoints para gestionar conversaciones y mensajes de chat. L
 ```json
 {
   "conversation_id": "abc123",
-  "response": "¡Hola! ¿En qué puedo ayudarte?"
+  "message": [
+    {
+      "rol": "user",
+      "message": "Hola"
+    },
+    {
+      "rol": "assistant",
+      "message": "¡Hola! ¿En qué puedo ayudarte?"
+    }
+  ]
 }
 ```
 
