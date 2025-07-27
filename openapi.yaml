@@ -1,0 +1,79 @@
+openapi: 3.0.3
+info:
+  title: Tech Challenge API
+  description: API for the Tech Challenge
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8000
+paths:
+  /health:
+    get:
+      summary: Health check
+      description: Check if the API is running.
+      responses:
+        '200':
+          description: API health status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+  /chat:
+    post:
+      summary: Send a message to the assistant
+      description: Send a prompt and receive a response from the assistant (OpenAI).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                conversation_id:
+                  type: string
+                  example: abc123
+                prompt:
+                  type: string
+                  example: Hola
+      responses:
+        '200':
+          description: Assistant response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  conversation_id:
+                    type: string
+                  response:
+                    type: string
+  /conversation/{conversation_id}:
+    get:
+      summary: Get all messages from a conversation
+      parameters:
+        - in: path
+          name: conversation_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of messages in the conversation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  conversation_id:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rol:
+                          type: string
+                        message:
+                          type: string
