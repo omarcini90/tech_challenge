@@ -1,9 +1,55 @@
 # Tech Challenge
 Desafío tecnológico para reclutamiento
 
+## Propósito
+
+Desarrollo de chatbot que mantiene su postura firme con base en un tema ingresado por el usuario, sin importar que tan logico o irracional sea la postura. La respuesta entrega un historico de los ultimos 5 menesajes de ambas partes para poder darle continuidad a la conversación. 
+
+## Estructura del proyecto
+
+
+```
+tech_challenge/
+├── api/
+│   ├── main.py                # Punto de entrada FastAPI
+│   ├── requirements.txt       # Dependencias Python
+│   ├── router/                # Rutas de la API
+│   ├── business_logic/        # Lógica de negocio
+│   ├── models/                # Modelos de datos
+│   ├── schemas/               # Esquemas Pydantic
+│   ├── utils/                 # Utilidades y helpers
+│   └── ...
+├── tests/                     # Pruebas automatizadas
+├── Dockerfile                 # Imagen de la API
+├── docker-compose.yml         # Orquestación de servicios
+├── Makefile                   # Comandos de automatización
+├── .env                       # Variables de entorno
+└── README.md                  # Documentación
+```
+
+## Ejemplo de archivo .env
+
+```
+MONGO_URI=mongodb://mongo:27017
+MONGO_DB_NAME=tech_challenge
+OPENAI_API_KEY=tu_clave_openai
+OPENAI_MODEL=gpt-3.5-turbo
+```
+
+## Contribuir
+
+Instrucciones para contribuir, abrir issues o enviar pull requests.
+
+## Preguntas frecuentes (FAQ)
+
+- **¿Qué hago si Docker no inicia?**
+  - Revisa que Docker Desktop esté corriendo o ejecuta `sudo systemctl start docker` en Linux.
+- **¿Cómo cambio la configuración de la base de datos?**
+  - Modifica el archivo `.env` y reinicia los servicios.
+
 ## Requisitos previos
 
-- Python 3.10+ (recomendado 3.11 o superior)
+- Python 3.10+ (recomendado 3.11 o superior) para poder probar de forma local
 - pip (gestor de paquetes de Python)
 - Docker y Docker Compose (para levantar servicios en contenedores)
 
