@@ -1,4 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
+from fastapi.responses import HTMLResponse
+import os
 from fastapi.middleware.cors import CORSMiddleware
 from api.router.conversation_api import router as conversation_router
 
@@ -17,6 +19,14 @@ app.add_middleware(
 
 
 app.include_router(conversation_router)
+
+# Serve the static welcome page at the root
+@app.get("/", response_class=HTMLResponse)
+async def root():
+    static_path = os.path.join(os.path.dirname(__file__), "static", "welcome.html")
+    with open(static_path, "r", encoding="utf-8") as f:
+        html_content = f.read()
+    return HTMLResponse(content=html_content, status_code=200)
 
 @app.get("/health")
 async def health_check():
