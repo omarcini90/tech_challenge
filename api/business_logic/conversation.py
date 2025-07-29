@@ -34,8 +34,9 @@ class ConversationLogic():
         Crea un mensaje y lo inserta en la base de datos.
         """
         try:
-            conversation_data = get_messages(message_request.conversation_id)
+            
             message_id = insert_message(message_request.message, message_request.conversation_id, rol="user")
+            conversation_data = get_messages(message_request.conversation_id)
             if not message_id or "conversation_id" not in message_id:
                 raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Error inserting message")
             if message_request.conversation_id is None:
