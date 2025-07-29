@@ -15,11 +15,13 @@ class ConversationLogic():
         """
         pass
     
-    def get_response_from_openai(self,conversation_id: str, prompt: str) -> str:
+    def get_response_from_openai(self, conversation_id: str, conversation_history: list) -> str:
         """
         Obtiene una respuesta de OpenAI para un prompt dado.
+        conversation_history debe ser una lista de mensajes tipo [{"rol": ..., "message": ...}]
         """
-        response = get_openai_completion(prompt)
+        # Solo pasar la lista de mensajes a get_openai_completion
+        response = get_openai_completion(conversation_history)
         if not response:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Error al obtener respuesta de OpenAI")
         if conversation_id is None:
@@ -32,6 +34,7 @@ class ConversationLogic():
         Crea un mensaje y lo inserta en la base de datos.
         """
         try:
+            conversation_data = get_messages(message_request.conversation_id)
             message_id = insert_message(message_request.message, message_request.conversation_id, rol="user")
             if not message_id or "conversation_id" not in message_id:
                 raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Error inserting message")
@@ -39,7 +42,12 @@ class ConversationLogic():
                 conversation_id = message_id["conversation_id"]
             else:
                 conversation_id = message_request.conversation_id
-            self.get_response_from_openai(conversation_id, message_request.message)
+            # Extraer solo la lista de mensajes
+            if conversation_data and "messages" in conversation_data:
+                conversation_history = conversation_data["messages"]
+            else:
+                conversation_history = [{"rol": "user", "message": message_request.message}]
+            self.get_response_from_openai(conversation_id, conversation_history)
             # Obtener los mensajes de la conversación
             messages= get_messages(conversation_id)
             if not messages:
